@@ -1,11 +1,11 @@
 <script lang="ts">
   import GetLocation from "./lib/GetLocation.svelte";
-  import LocationData from "./lib/LocationData.svelte";
+  import LocationAddress from "./lib/LocationAddress.svelte";
 </script>
 
 <main>
   <GetLocation />
-  <LocationData />
+  <LocationAddress />
 </main>
 
 <style>

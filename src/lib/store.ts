@@ -1,8 +1,7 @@
 import { writable } from "svelte/store";
+import type { LocationAddress, LocationProperty, PropertyCache } from './types';
 
-interface Coordinates {
-  lat: number;
-  long: number;
-}
+export const locationAddress = writable<LocationAddress[]>([]);
+export const addressInfo = writable<LocationProperty>(null);
 
-export const coordinates = writable<Coordinates | null>(null);
+export const propertyCache = writable<any>({});

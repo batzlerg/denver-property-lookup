@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { coordinates } from "./store";
+  import { locationAddress } from "./store";
+  import { getLocationAddress } from "./services/mapsService";
   let canUseLocation = true;
 
   onMount(() => {
@@ -12,9 +13,8 @@
   function getLocation() {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        coordinates.set({
-          lat: latitude,
-          long: longitude,
+        getLocationAddress(latitude, longitude).then((result) => {
+          locationAddress.set(result);
         });
       }
     );
