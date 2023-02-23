@@ -55,6 +55,7 @@ export interface PropertyData {
   year: number,
   renovatedYear: number,
   propertyClass: string,
+  finishedAreaSqft: number,
   landAreaSqft: number,
   stories: number,
   units: number,

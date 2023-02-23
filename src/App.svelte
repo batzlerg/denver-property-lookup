@@ -2,8 +2,6 @@
   import AddressSelector from "./lib/AddressSelector/index.svelte";
   import PropertyInfo from "./lib/PropertyInfo/index.svelte";
   import { currentAddress } from "./lib/store";
-
-  let mode: "location" | "manual" = "manual";
 </script>
 
 <main>

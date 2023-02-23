@@ -1,5 +1,6 @@
 import { API_URL } from "../constants";
 import type { LocationProperty, PropertyData } from "../types";
+import { toTitleCase } from "../utils";
 
 export async function getPropertyData(address: string): Promise<PropertyData> {
   const url = new URL(`${API_URL}/real_property_residential`);
@@ -22,10 +23,11 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
 export function parsePropertyData(data: LocationProperty): PropertyData {
   const propertyData = {
     ownerName: cleanOwnerName(data.owner),
-    ownerAddress: [data.owner_num, data.owner_dir, data.owner_st, data.owner_type, data.owner_apt, data.owner_city, data.owner_state, data.owner_zip].join(' '),
+    ownerAddress: buildOwnerAddress(data),
     year: data.ccyrblt,
     renovatedYear: data.ccage_rm,
     propertyClass: data.prop_class,
+    finishedAreaSqft: data.area_abg,
     landAreaSqft: data.land_sqft,
     stories: data.story,
     units: data.units,
@@ -39,12 +41,36 @@ export function parsePropertyData(data: LocationProperty): PropertyData {
       actualTotalValue: data.total_value
     },
   };
+
+  for (const [key, value] of Object.entries(propertyData)) {
+    if (typeof value === 'string') {
+      propertyData[key] = toTitleCase(value, key === 'ownerAddress');
+    }
+  }
+
   return propertyData;
 }
 
 // todo: tests?
 function cleanOwnerName(name: string) {
   return name.replaceAll(',,', ',').replace(',', ', ');
+}
+
+function buildOwnerAddress(data: LocationProperty) {
+  const residence = [
+    data.owner_num,
+    data.owner_dir,
+    data.owner_st,
+    data.owner_type,
+    data.owner_apt
+  ].join(' ').trim();
+
+  const rest = [
+    data.owner_city,
+    data.owner_state,
+  ].join(' ').trim();
+
+  return `${residence}, ${rest}`;
 }
 
 export async function getAddressesMatchingInput(input: string): Promise<string[]> {
