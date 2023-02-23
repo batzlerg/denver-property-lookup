@@ -1,11 +1,15 @@
 <script lang="ts">
-  import GetLocation from "./lib/GetLocation.svelte";
-  import LocationAddress from "./lib/LocationAddress.svelte";
+  import AddressSelector from "./lib/AddressSelector/index.svelte";
+  import PropertyInfo from "./lib/PropertyInfo/index.svelte";
+  import { currentAddress } from "./lib/store";
+
+  let mode: "location" | "manual" = "manual";
 </script>
 
 <main>
-  <GetLocation />
-  <LocationAddress />
+  <h1>Denver Property Lookup</h1>
+  <AddressSelector />
+  <PropertyInfo address={$currentAddress} />
 </main>
 
 <style>

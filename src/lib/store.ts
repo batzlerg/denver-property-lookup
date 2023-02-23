@@ -1,7 +1,9 @@
 import { writable } from "svelte/store";
-import type { LocationAddress, LocationProperty, PropertyCache } from './types';
+import type { LocationProperty, PropertyCache } from './types';
 
-export const locationAddress = writable<LocationAddress[]>([]);
+export const currentAddress = writable<string>('');
+export const matchingAddresses = writable<string[]>([]);
 export const addressInfo = writable<LocationProperty>(null);
 
+// todo: type
 export const propertyCache = writable<any>({});

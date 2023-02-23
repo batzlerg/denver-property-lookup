@@ -1,13 +1,3 @@
-// todo: keep more of the Maps API data if needed
-export interface LocationAddress {
-  addressComponents: Array<{
-    long_name: string,
-    short_name: string,
-    types: Array<string>
-  }>,
-  formattedAddress: string,
-}
-
 // all copied from DB schema
 export interface LocationProperty {
   parid: string;
@@ -65,13 +55,13 @@ export interface PropertyData {
   year: number,
   renovatedYear: number,
   propertyClass: string,
-  landAreadSqft: number,
+  landAreaSqft: number,
   stories: number,
   units: number,
   bedrooms: number,
   bathrooms: number,
   neighborhood: string,
-  value: {
+  valuation: {
     assessedLandValue: number,
     actualLandValue: number,
     assessedTotalValue: number,
