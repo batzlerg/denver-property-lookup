@@ -2,6 +2,7 @@
   import PropertyInfoTable from "./PropertyInfoTable.svelte";
   import { propertyCache } from "../store";
   import type { PropertyData } from "../types";
+  import { labels } from "./tableLabels";
 
   export let address: string;
   let rows: [string, string | number][] = [];
@@ -17,8 +18,7 @@
       specialCases = {};
       for (const [key, value] of Object.entries(data)) {
         if (["number", "string"].includes(typeof value)) {
-          // todo: remove after typing propertyCache
-          rows.push([key, value as string | number]);
+          rows.push([labels[key] ?? key, value]);
         } else {
           specialCases[key] = Object.entries(value);
         }
