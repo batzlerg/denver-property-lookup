@@ -70,5 +70,5 @@ export interface PropertyData {
 }
 
 export interface PropertyCache {
-  [key: string]: LocationProperty
+  [key: string]: PropertyData
 }
