@@ -10,7 +10,7 @@
 
   --color-accent: #36548b;
 
-  --font-sans-serif: "Verdana", system-ui, Helvetica, Arial, sans-serif;
+  --font-sans-serif: Inter, "Verdana", system-ui, Helvetica, Arial, sans-serif;
 
   font-family: var(--font-sans-serif);
   line-height: 1.5;

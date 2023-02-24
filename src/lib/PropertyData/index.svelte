@@ -74,7 +74,7 @@
       <div class="details">
         <div class="sub-section-wrapper">
           <div class="sub-section">
-            <h5>Property</h5>
+            {#if data.landAreaSqft}<h5>Property</h5>{/if}
             <div>
               ${data.actualTotalValue.toLocaleString()}
               <span class="value-type">Actual</span>
@@ -127,9 +127,6 @@
     margin: 0.3rem 0;
     font-family: var(--font-sans-serif);
   }
-  /* .sub-section {
-    margin-top: 1rem;
-  } */
   .sub-section-wrapper {
     display: flex;
     flex-direction: row;

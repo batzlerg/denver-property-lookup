@@ -1,7 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { matchingAddresses } from "../store";
+  import {
+    matchingAddresses,
+    currentAddress,
+    propertyCache,
+    errorMatchingAddress,
+  } from "../store";
   import { getAddressesMatchingLocation } from "../services/mapsService";
+  import { getPropertyData } from "../services/propertyLookupService";
   export let setErrorMessage: (message: string) => void;
   let canUseGeolocation = true;
 
@@ -17,13 +23,37 @@
   function getLocation() {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        getAddressesMatchingLocation(latitude, longitude).then(
-          matchingAddresses.set
-        );
+        getAddressesMatchingLocation(latitude, longitude).then((addresses) => {
+          setErrorMessage(null);
+          // if we have one address, skip the suggestion and go straight to lookup
+          if (addresses.length === 1) {
+            const address = addresses[0];
+            if (!$propertyCache[address]) {
+              getPropertyData(address)
+                .then((data) => {
+                  propertyCache.update((cache) => ({
+                    ...cache,
+                    [address]: data,
+                  }));
+                  currentAddress.set(address);
+                  matchingAddresses.set([]);
+                  errorMatchingAddress.set(false);
+                })
+                .catch(() => {
+                  errorMatchingAddress.set(true);
+                });
+            } else {
+              currentAddress.set(address);
+              matchingAddresses.set([]);
+            }
+          } else {
+            matchingAddresses.set(addresses);
+          }
+        });
       },
-      (error) => {
+      () => {
         setErrorMessage(
-          "Cannot access geolocation data. Please refresh and try again, or enter an address manually."
+          "Geolocation access denied. Please refresh and try again, or enter an address manually."
         );
       }
     );

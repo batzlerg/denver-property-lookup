@@ -1,4 +1,4 @@
-import { API_URL } from "../constants";
+import { API_URL, NUM_MATCHES } from "../constants";
 import type { LocationProperty, PropertyData } from "../types";
 import { buildOwnerAddress, cleanOwnerName, toTitleCase } from "../utils";
 
@@ -10,13 +10,19 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
     const response = await fetch(url)
     if (response.ok) {
       const parsed = await response.json();
-      return parsePropertyData(parsed[0]);
+
+      if (parsed.length) {
+        return parsePropertyData(parsed[0]);
+      } else {
+        throw new Error('no matching data for input address');
+      }
     } else {
       throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
     }
   } catch (err) {
     // todo: handling
     console.error(err);
+    throw err;
   }
 }
 
@@ -61,13 +67,33 @@ export async function getAddressesMatchingInput(input: string): Promise<string[]
   const url = new URL(`${API_URL}/real_property_residential`);
   url.searchParams.append('property_address', `like.${input}*`); // * used as alias for % to avoid URL encoding issues
   url.searchParams.append('select', `property_address`);
-  url.searchParams.append('limit', `5`);
+  url.searchParams.append('limit', String(NUM_MATCHES));
 
   try {
     const response = await fetch(url)
     if (response.ok) {
       const parsed = await response.json();
       return parsed.map(addressObj => addressObj.property_address);
+    } else {
+      throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
+    }
+  } catch (err) {
+    // todo: handling
+    console.error(err)
+  }
+}
+
+export async function getAddressesFuzzyMatchingInput(input: string): Promise<string[]> {
+  const url = new URL(`${API_URL}/rpc/fuzzy_search`);
+  url.searchParams.append('term', `${input}`);
+
+  try {
+    const response = await fetch(url)
+    if (response.ok) {
+      const parsed = await response.json();
+      const mapped: string[] = parsed.map(addressObj => addressObj.property_address);
+      const perfectMatch = mapped.find(address => address === input);
+      return perfectMatch ? [perfectMatch] : [...new Set(mapped)].slice(0, NUM_MATCHES);
     } else {
       throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
     }

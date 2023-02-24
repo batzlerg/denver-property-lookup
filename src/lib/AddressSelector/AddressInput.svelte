@@ -1,14 +1,35 @@
 <script lang="ts">
-  import { matchingAddresses, currentAddress } from "../store";
-  import { getAddressesMatchingInput } from "../services/propertyLookupService";
-  let timer;
-  const searchForMatchingAddress = (event) => {
+  import {
+    matchingAddresses,
+    currentAddress,
+    errorMatchingAddress,
+  } from "../store";
+  import { getAddressesFuzzyMatchingInput } from "../services/propertyLookupService";
+  function searchForMatchingAddress(
+    event: KeyboardEvent & {
+      target: EventTarget & HTMLInputElement;
+    }
+  ) {
+    const { value } = event.target;
+    if (value !== "") {
+      getAddressesFuzzyMatchingInput(value.toUpperCase()).then((addresses) => {
+        if (addresses?.length) {
+          matchingAddresses.set(addresses);
+          errorMatchingAddress.set(false);
+        } else {
+          errorMatchingAddress.set(true);
+        }
+      });
+    }
+  }
+  let timer: NodeJS.Timeout;
+  const debouncedSearch = (event) => {
     clearTimeout(timer);
+    if (event.key === "Enter" || event.keyCode === 13) {
+      searchForMatchingAddress(event);
+    }
     timer = setTimeout(() => {
-      const { value } = event.target as HTMLInputElement;
-      getAddressesMatchingInput(value.toUpperCase()).then(
-        matchingAddresses.set
-      );
+      searchForMatchingAddress(event);
     }, 750);
   };
 
@@ -19,7 +40,7 @@
   type="text"
   placeholder="123 N Main St"
   bind:value={addressInputValue}
-  on:keyup={(event) => searchForMatchingAddress(event)}
+  on:keyup={(event) => debouncedSearch(event)}
 />
 
 <style>

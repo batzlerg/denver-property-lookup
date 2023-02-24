@@ -39,8 +39,17 @@
     position: absolute;
     left: 0;
     top: 3rem;
+    box-shadow: 1px 1px 5px black;
+    border-radius: 10px;
+    z-index: 10;
   }
   .error-message {
-    color: darkred;
+    color: rgb(199, 0, 0);
+    text-shadow: 1px 1px 0 solid black;
   }
+  /* @media (prefers-color-scheme: light) {
+    .error-message {
+      color: darkred;
+    }
+  } */
 </style>

@@ -3,6 +3,7 @@ import type { LocationProperty, PropertyCache } from './types';
 
 export const currentAddress = writable<string>('');
 export const matchingAddresses = writable<string[]>([]);
+export const errorMatchingAddress = writable<boolean>(false);
 export const addressInfo = writable<LocationProperty>(null);
 
 export const propertyCache = writable<PropertyCache>({});
