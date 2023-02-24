@@ -22,7 +22,9 @@
         );
       },
       (error) => {
-        setErrorMessage(error.message);
+        setErrorMessage(
+          "Cannot access geolocation data. Please refresh and try again, or enter an address manually."
+        );
       }
     );
   }

@@ -1,6 +1,6 @@
 import { API_URL } from "../constants";
 import type { LocationProperty, PropertyData } from "../types";
-import { toTitleCase } from "../utils";
+import { buildOwnerAddress, cleanOwnerName, toTitleCase } from "../utils";
 
 export async function getPropertyData(address: string): Promise<PropertyData> {
   const url = new URL(`${API_URL}/real_property_residential`);
@@ -48,36 +48,13 @@ export function parsePropertyData(data: LocationProperty): PropertyData {
 
   for (const [key, value] of Object.entries(propertyDataBase)) {
     if (typeof value === 'string') {
-      propertyDataBase[key] = toTitleCase(value);
+      propertyDataBase[key] = toTitleCase(/([\ -()\/])/, value);
     }
   }
 
   return Object.assign({}, propertyDataBase, {
     ownerAddress: buildOwnerAddress(data)
   });
-}
-
-// todo: tests?
-function cleanOwnerName(name: string) {
-  return name.replaceAll(',,', ',').replace(',', ', ');
-}
-
-// this title-cases only what's necessary to avoid mistaken title-casing
-function buildOwnerAddress(data: LocationProperty) {
-  const residence = toTitleCase([
-    data.owner_num,
-    data.owner_dir,
-    data.owner_st,
-    data.owner_type,
-    data.owner_apt
-  ].join(' ').trim());
-
-  const rest = [
-    toTitleCase(data.owner_city),
-    data.owner_state,
-  ].join(' ').trim();
-
-  return `${residence}, ${rest}`;
 }
 
 export async function getAddressesMatchingInput(input: string): Promise<string[]> {

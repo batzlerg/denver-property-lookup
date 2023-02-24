@@ -10,7 +10,7 @@
   }
 </script>
 
-<section class="card">
+<section>
   <div class="address-selector">
     <div class="inputs">
       <AddressInput />
@@ -38,10 +38,9 @@
     width: 100%;
     position: absolute;
     left: 0;
-    top: 2.5rem;
-    background-color: grey;
+    top: 3rem;
   }
   .error-message {
-    color: red;
+    color: darkred;
   }
 </style>

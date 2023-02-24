@@ -1,6 +1,6 @@
 <script lang="ts">
   import Separator from "./Separator.svelte";
-  import type { PropertyData } from "../lib/types";
+  import type { PropertyData } from "../types";
   export let data: PropertyData;
 </script>
 
@@ -9,42 +9,54 @@
     <div class="header">
       <h3>{data.address}</h3>
       <span class="header-details">
-        {data.neighborhood}
+        <span class="header-detail-value no-wrap">{data.neighborhood}</span>
         <Separator />
-        {data.propertyClass || data.propertyUse}
+        <span class="header-detail-value no-wrap"
+          >{data.propertyClass || data.propertyUse}</span
+        >
       </span>
     </div>
     <section class="data-section">
       <h4>Details</h4>
       <div class="details">
-        <div>
-          {data.bedrooms} Bed, {data.bathrooms} Baths
+        <div class="detail-row">
+          <span class="no-wrap"
+            >{data.bedrooms} Bed, {data.bathrooms} Baths</span
+          >
           {#if !!data.finishedAreaSqft}
             <Separator />
-            {data.finishedAreaSqft} ft<sup>2</sup>
-            <span class="value-type">living</span>
+            <span class="no-wrap">
+              {data.finishedAreaSqft} ft<sup>2</sup>
+              <span class="value-type">living</span>
+            </span>
           {/if}
           {#if !!data.landAreaSqft}
             <Separator />
-            {data.landAreaSqft} ft<sup>2</sup>
-            <span class="value-type">lot</span>
+            <span class="no-wrap">
+              {data.landAreaSqft} ft<sup>2</sup>
+              <span class="value-type">lot</span>
+            </span>
           {/if}
         </div>
-        <div>
-          {data.stories}
-          {data.stories > 1 ? "Stories" : "Story"}
+        <div class="detail-row">
+          <span class="no-wrap">
+            {data.stories}
+            {data.stories > 1 ? "Stories" : "Story"}
+          </span>
           {#if data?.units > 1}
             <Separator />
-            {data.units} Units
+            <span class="no-wrap">{data.units} Units</span>
           {/if}
         </div>
         {#if !!data.year}
-          <div>
-            Built {data.year}
+          <div class="detail-row">
+            <span class="no-wrap">Built {data.year}</span>
             {#if !!data.renovatedYear}
               <Separator />
-              {"Renovated"}
-              {data.renovatedYear}
+              <span class="no-wrap">
+                Renovated
+                {data.renovatedYear}
+              </span>
             {/if}
           </div>
         {/if}
@@ -86,8 +98,13 @@
 {/if}
 
 <style>
-  section {
+  .card {
     text-align: left;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    color: var(--color-white);
+    background-color: var(--color-off-black);
   }
   h3,
   h4,
@@ -95,10 +112,14 @@
     margin: 0;
   }
   h3 {
-    font-size: 1.5rem;
+    font-size: 2rem;
+  }
+  h4 {
+    font-family: var(--font-sans-serif);
   }
   h5 {
-    margin-bottom: 0.3rem;
+    margin: 0.3rem 0;
+    font-family: var(--font-sans-serif);
   }
   .details h5:not(:first-of-type) {
     margin-top: 1rem;
@@ -110,18 +131,34 @@
   }
   .header {
     width: 100%;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     place-items: baseline;
     justify-content: space-between;
-    gap: 1rem;
   }
+  .header-details {
+    font-size: 0.9rem;
+  }
+  .header-detail-value,
   .value-type {
     opacity: 0.6;
   }
-
+  .no-wrap {
+    white-space: nowrap;
+  }
   @media (max-width: 600px) {
     .header {
       flex-direction: column;
+    }
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    .card {
+      color: var(--color-black);
+      background-color: var(--color-white);
     }
   }
 </style>

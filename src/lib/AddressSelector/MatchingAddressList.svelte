@@ -32,13 +32,23 @@
     padding: 0;
     margin: 0;
     text-align: left;
+    background-color: var(--color-off-black);
+    border-radius: 10px;
   }
   li {
-    padding: 0.2rem;
+    padding: 0.5rem;
     cursor: pointer;
     border-radius: 10px;
   }
   li:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-dark-gray);
+  }
+  @media (prefers-color-scheme: light) {
+    ul {
+      background-color: var(--color-white);
+    }
+    li:hover {
+      background-color: var(--color-gray);
+    }
   }
 </style>
