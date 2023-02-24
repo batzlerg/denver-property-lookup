@@ -1,27 +1,24 @@
 <script lang="ts">
+  import { writable } from "svelte/store";
   import AddressInput from "./AddressInput.svelte";
   import LocationInputButton from "./LocationInputButton.svelte";
   import MatchingAddressList from "./MatchingAddressList.svelte";
 
-  let errorMessage;
-
-  function setErrorMessage(message: string) {
-    errorMessage = message;
-  }
+  let errorMessage = writable<string>();
 </script>
 
 <section>
   <div class="address-selector">
     <div class="inputs">
       <AddressInput />
-      <LocationInputButton {setErrorMessage} />
+      <LocationInputButton {errorMessage} />
     </div>
     <div class="floating-options">
       <MatchingAddressList />
     </div>
   </div>
-  {#if errorMessage}
-    <p class="error-message">{errorMessage}</p>
+  {#if $errorMessage}
+    <p class="error-message">{$errorMessage}</p>
   {/if}
 </section>
 
@@ -32,13 +29,13 @@
   .inputs {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 1rem;
   }
   .floating-options {
     width: 100%;
     position: absolute;
     left: 0;
-    top: 3rem;
+    top: 4rem;
     box-shadow: 1px 1px 5px black;
     border-radius: 10px;
     z-index: 10;
@@ -47,9 +44,4 @@
     color: rgb(199, 0, 0);
     text-shadow: 1px 1px 0 solid black;
   }
-  /* @media (prefers-color-scheme: light) {
-    .error-message {
-      color: darkred;
-    }
-  } */
 </style>

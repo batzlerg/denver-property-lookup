@@ -137,6 +137,7 @@
     margin-top: 1.5rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
+    align-items: baseline;
   }
   .header {
     width: 100%;
@@ -144,6 +145,7 @@
     flex-direction: column;
     place-items: baseline;
     justify-content: space-between;
+    margin-bottom: 1.7rem;
   }
   .header-details {
     font-size: 0.9rem;

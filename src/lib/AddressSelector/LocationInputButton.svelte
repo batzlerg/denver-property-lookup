@@ -8,12 +8,17 @@
   } from "../store";
   import { getAddressesMatchingLocation } from "../services/mapsService";
   import { getPropertyData } from "../services/propertyLookupService";
-  export let setErrorMessage: (message: string) => void;
+  import Loader from "./Loader.svelte";
+  import type { Writable } from "svelte/store";
+  import { loadingInitiator, InputSources } from "./store";
+
+  export let errorMessage: Writable<string>;
   let canUseGeolocation = true;
+  $: isLoading = $loadingInitiator === InputSources.GPS;
 
   onMount(() => {
     if (!navigator.geolocation) {
-      setErrorMessage(
+      errorMessage.set(
         "This browser is not capable of using geolocation. Please type in an address."
       );
       canUseGeolocation = false;
@@ -23,8 +28,9 @@
   function getLocation() {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
+        loadingInitiator.set(InputSources.GPS);
         getAddressesMatchingLocation(latitude, longitude).then((addresses) => {
-          setErrorMessage(null);
+          errorMessage.set(null);
           // if we have one address, skip the suggestion and go straight to lookup
           if (addresses.length === 1) {
             const address = addresses[0];
@@ -49,19 +55,24 @@
           } else {
             matchingAddresses.set(addresses);
           }
+          loadingInitiator.set(null);
         });
       },
       () => {
-        setErrorMessage(
-          "Geolocation access denied. Please refresh and try again, or enter an address manually."
+        errorMessage.set(
+          "Location access denied. Refresh and try again, or enter an address manually."
         );
       }
     );
   }
 </script>
 
-<button on:click={getLocation} disabled={!canUseGeolocation}>
-  <div class="location-arrow">&#10148;</div>
+<button on:click={getLocation} disabled={!canUseGeolocation || isLoading}>
+  {#if isLoading}
+    <Loader />
+  {:else}
+    <div class="location-arrow">&#10148;</div>
+  {/if}
 </button>
 
 <style>
@@ -73,13 +84,19 @@
   button {
     border-radius: 10px;
     border: none;
-    padding: 0.6em 0.7em;
+    padding: 0;
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
     background-color: var(--color-accent);
-    cursor: pointer;
     transition: border-color 0.25s;
+    flex-shrink: 0;
+    height: 3rem;
+    width: 3rem;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
   }
 
   button:focus,

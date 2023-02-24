@@ -7,7 +7,7 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
   url.searchParams.append('property_address', `eq.${address}`);
 
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
     if (response.ok) {
       const parsed = await response.json();
 
@@ -70,7 +70,7 @@ export async function getAddressesMatchingInput(input: string): Promise<string[]
   url.searchParams.append('limit', String(NUM_MATCHES));
 
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
     if (response.ok) {
       const parsed = await response.json();
       return parsed.map(addressObj => addressObj.property_address);
@@ -88,7 +88,7 @@ export async function getAddressesFuzzyMatchingInput(input: string): Promise<str
   url.searchParams.append('term', `${input}`);
 
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
     if (response.ok) {
       const parsed = await response.json();
       const mapped: string[] = parsed.map(addressObj => addressObj.property_address);
