@@ -78,7 +78,8 @@
     background-color: var(--color-dark-gray);
   }
   @media (prefers-color-scheme: light) {
-    ul {
+    ul,
+    .no-results {
       background-color: var(--color-white);
     }
     li:hover {
