@@ -21,13 +21,18 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
 }
 
 export function parsePropertyData(data: LocationProperty): PropertyData {
-  const propertyData = {
+  // this method handles full addresses separately so that states
+  // don't get title-cased (e.g. CO -> Co or WA -> Wa)
+  const propertyDataBase: Pick<
+    PropertyData,
+    Exclude<keyof PropertyData, "ownerAddress">
+  > = {
     address: data.property_address,
     ownerName: cleanOwnerName(data.owner),
-    ownerAddress: buildOwnerAddress(data),
     year: data.ccyrblt,
     renovatedYear: data.ccage_rm,
     propertyClass: data.prop_class,
+    propertyUse: data.d_class_cn,
     finishedAreaSqft: data.area_abg,
     landAreaSqft: data.land_sqft,
     stories: data.story,
@@ -41,13 +46,15 @@ export function parsePropertyData(data: LocationProperty): PropertyData {
     actualTotalValue: data.total_value
   };
 
-  for (const [key, value] of Object.entries(propertyData)) {
+  for (const [key, value] of Object.entries(propertyDataBase)) {
     if (typeof value === 'string') {
-      propertyData[key] = toTitleCase(value, key === 'ownerAddress');
+      propertyDataBase[key] = toTitleCase(value);
     }
   }
 
-  return propertyData;
+  return Object.assign({}, propertyDataBase, {
+    ownerAddress: buildOwnerAddress(data)
+  });
 }
 
 // todo: tests?
@@ -55,17 +62,18 @@ function cleanOwnerName(name: string) {
   return name.replaceAll(',,', ',').replace(',', ', ');
 }
 
+// this title-cases only what's necessary to avoid mistaken title-casing
 function buildOwnerAddress(data: LocationProperty) {
-  const residence = [
+  const residence = toTitleCase([
     data.owner_num,
     data.owner_dir,
     data.owner_st,
     data.owner_type,
     data.owner_apt
-  ].join(' ').trim();
+  ].join(' ').trim());
 
   const rest = [
-    data.owner_city,
+    toTitleCase(data.owner_city),
     data.owner_state,
   ].join(' ').trim();
 

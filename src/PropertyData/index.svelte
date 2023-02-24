@@ -11,7 +11,7 @@
       <span class="header-details">
         {data.neighborhood}
         <Separator />
-        {data.propertyClass}
+        {data.propertyClass || data.propertyUse}
       </span>
     </div>
     <section class="data-section">
@@ -69,15 +69,17 @@
           ${data.assessedTotalValue.toLocaleString()}
           <span class="value-type">Assessed</span>
         </div>
-        <h5>Land</h5>
-        <div>
-          ${data.actualLandValue.toLocaleString()}
-          <span class="value-type">Actual</span>
-        </div>
-        <div>
-          ${data.assessedLandValue.toLocaleString()}
-          <span class="value-type">Assessed</span>
-        </div>
+        {#if data.landAreaSqft}
+          <h5>Land</h5>
+          <div>
+            ${data.actualLandValue.toLocaleString()}
+            <span class="value-type">Actual</span>
+          </div>
+          <div>
+            ${data.assessedLandValue.toLocaleString()}
+            <span class="value-type">Assessed</span>
+          </div>
+        {/if}
       </div>
     </section>
   </section>
