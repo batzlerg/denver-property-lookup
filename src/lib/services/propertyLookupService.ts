@@ -16,7 +16,7 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
     }
   } catch (err) {
     // todo: handling
-    console.error(err)
+    console.error(err);
   }
 }
 

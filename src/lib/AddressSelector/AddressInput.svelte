@@ -27,5 +27,18 @@
     width: 100%;
     font-size: 1rem;
     padding-left: 0.5rem;
+    background-color: var(--color-dark-gray);
+    font-family: var(--font-sans-serif);
+  }
+
+  input {
+    border-radius: 10px;
+    border: none;
+  }
+
+  @media (prefers-color-scheme: light) {
+    input {
+      background: var(--color-white);
+    }
   }
 </style>

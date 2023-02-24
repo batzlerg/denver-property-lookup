@@ -72,26 +72,32 @@
     <section class="data-section">
       <h4>Value</h4>
       <div class="details">
-        <h5>Property</h5>
-        <div>
-          ${data.actualTotalValue.toLocaleString()}
-          <span class="value-type">Actual</span>
-        </div>
-        <div>
-          ${data.assessedTotalValue.toLocaleString()}
-          <span class="value-type">Assessed</span>
-        </div>
-        {#if data.landAreaSqft}
-          <h5>Land</h5>
-          <div>
-            ${data.actualLandValue.toLocaleString()}
-            <span class="value-type">Actual</span>
+        <div class="sub-section-wrapper">
+          <div class="sub-section">
+            <h5>Property</h5>
+            <div>
+              ${data.actualTotalValue.toLocaleString()}
+              <span class="value-type">Actual</span>
+            </div>
+            <div>
+              ${data.assessedTotalValue.toLocaleString()}
+              <span class="value-type">Assessed</span>
+            </div>
           </div>
-          <div>
-            ${data.assessedLandValue.toLocaleString()}
-            <span class="value-type">Assessed</span>
-          </div>
-        {/if}
+          {#if data.landAreaSqft}
+            <div class="sub-section">
+              <h5>Land</h5>
+              <div>
+                ${data.actualLandValue.toLocaleString()}
+                <span class="value-type">Actual</span>
+              </div>
+              <div>
+                ${data.assessedLandValue.toLocaleString()}
+                <span class="value-type">Assessed</span>
+              </div>
+            </div>
+          {/if}
+        </div>
       </div>
     </section>
   </section>
@@ -100,7 +106,7 @@
 <style>
   .card {
     text-align: left;
-    padding: 1rem 2rem;
+    padding: 1rem 2rem 2rem 2rem;
     border-radius: 10px;
     margin-top: 2rem;
     color: var(--color-white);
@@ -121,8 +127,14 @@
     margin: 0.3rem 0;
     font-family: var(--font-sans-serif);
   }
-  .details h5:not(:first-of-type) {
+  /* .sub-section {
     margin-top: 1rem;
+  } */
+  .sub-section-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
   .data-section {
     margin-top: 1.5rem;
@@ -148,6 +160,10 @@
   }
   @media (max-width: 600px) {
     .header {
+      flex-direction: column;
+    }
+    .data-section {
+      display: flex;
       flex-direction: column;
     }
     .detail-row {

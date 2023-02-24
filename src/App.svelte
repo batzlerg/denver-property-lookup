@@ -21,8 +21,19 @@
 
 <style>
   main {
-    max-width: 100rem;
-    padding: 0 4rem;
+    max-width: 80rem;
+    padding: 0;
     transition: 1s all;
+  }
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+    font-weight: 900;
+    margin-top: 0;
+  }
+  @media (max-width: 620px) {
+    h1 {
+      font-size: 2.5em;
+    }
   }
 </style>

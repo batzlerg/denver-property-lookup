@@ -1,4 +1,5 @@
 import { MAPS_API_URL } from "../constants";
+import { getAddressesMatchingInput } from "./propertyLookupService";
 
 export async function getAddressesMatchingLocation(latitude, longitude): Promise<string[]> {
   const url = new URL(MAPS_API_URL);
@@ -10,7 +11,17 @@ export async function getAddressesMatchingLocation(latitude, longitude): Promise
     const response = await fetch(url)
     if (response.ok) {
       const parsed = await response.json();
-      return buildAddressStrings(parsed.results);
+      const candidateAddresses = buildAddressStrings(parsed.results);
+
+      // check that the address we got is in the DB
+      const validCandidateAddresses = await Promise.all(candidateAddresses.map(getAddressesMatchingInput));
+
+      if (validCandidateAddresses.length) {
+        return validCandidateAddresses.flat();
+      } else {
+        // todo: handle this with error message?
+        throw new Error('no valid addresses found from GPS')
+      }
     } else {
       throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
     }
