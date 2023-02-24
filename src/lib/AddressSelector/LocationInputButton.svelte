@@ -77,17 +77,20 @@
 
 <style>
   .location-arrow {
-    margin-top: -3px;
+    margin: 0;
+    padding: 0;
+    margin-top: -5px;
+    margin-left: 1px;
     transform: rotateZ(-45deg);
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: inherit;
   }
 
   button {
     border-radius: 10px;
     border: none;
     padding: 0;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
     background-color: var(--color-accent);
     transition: border-color 0.25s;
     flex-shrink: 0;
