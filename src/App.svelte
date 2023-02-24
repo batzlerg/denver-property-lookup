@@ -20,6 +20,7 @@
 <style>
   main {
     max-width: 80rem;
+    height: 100%;
     padding: 0;
     transition: 1s all;
   }
