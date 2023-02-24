@@ -30,7 +30,7 @@
     font-weight: 900;
     margin-top: 0;
   }
-  @media (max-width: 620px) {
+  @media (max-width: 720px) {
     h1 {
       font-size: 2.5em;
     }

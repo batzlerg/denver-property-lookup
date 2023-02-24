@@ -1,4 +1,8 @@
-<span>&ensp;|&ensp;</span>
+<script lang="ts">
+  export let showXS = false;
+</script>
+
+<span class={showXS ? "" : "show-xs"}>&ensp;|&ensp;</span>
 
 <style>
   span {
@@ -6,7 +10,7 @@
   }
 
   @media (max-width: 600px) {
-    span {
+    span.show-xs {
       display: none;
     }
   }

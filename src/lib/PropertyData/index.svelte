@@ -10,7 +10,7 @@
       <h3>{data.address}</h3>
       <span class="header-details">
         <span class="header-detail-value no-wrap">{data.neighborhood}</span>
-        <Separator />
+        <Separator showXS />
         <span class="header-detail-value no-wrap"
           >{data.propertyClass || data.propertyUse}</span
         >
