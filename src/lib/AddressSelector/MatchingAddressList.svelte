@@ -68,11 +68,11 @@
     padding: 0;
     margin: 0;
     text-align: left;
+    overflow: hidden;
   }
   li {
     padding: 0.5rem;
     cursor: pointer;
-    border-radius: 10px;
   }
   li:hover {
     background-color: var(--color-dark-gray);

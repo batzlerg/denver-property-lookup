@@ -7,7 +7,6 @@
   --color-light-gray: rgba(200, 200, 200, 1);
   --color-off-white: rgba(217, 217, 217, 1);
   --color-white: rgba(235, 235, 235, 1);
-
   --color-accent: #36548b;
 
   --font-sans-serif: Inter, "Verdana", system-ui, Helvetica, Arial, sans-serif;
@@ -40,6 +39,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* mobile safari, as usual, is dumb */
+  /* https://stackoverflow.com/a/55003985/7864431 */
+  min-height: -webkit-fill-available;
 }
 
 h1,
