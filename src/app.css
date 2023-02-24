@@ -38,10 +38,6 @@ body {
   padding: 2rem;
 }
 
-.card+.card {
-  margin-top: 1rem;
-}
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -54,10 +50,16 @@ h1 {
   text-align: center;
 }
 
+input,
+button {
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  /* border: 1px solid transparent; */
+  padding: .6em .7em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -75,9 +77,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+@media (max-width: 620px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: rgba(33, 53, 71, 1);
     background-color: #ffffff;
   }
 
@@ -86,12 +98,6 @@ button:focus-visible {
   }
 
   button {
-    background-color: #f9f9f9;
-  }
-
-  section {
-    border: 1px solid black;
-    display: flex;
-    place-items: center;
+    background-color: #ffffff;
   }
 }

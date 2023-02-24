@@ -94,6 +94,9 @@
   h5 {
     margin: 0;
   }
+  h3 {
+    font-size: 1.5rem;
+  }
   h5 {
     margin-bottom: 0.3rem;
   }
@@ -114,5 +117,11 @@
   }
   .value-type {
     opacity: 0.6;
+  }
+
+  @media (max-width: 600px) {
+    .header {
+      flex-direction: column;
+    }
   }
 </style>
