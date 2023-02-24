@@ -10,7 +10,7 @@
   }
 </script>
 
-<section>
+<section class="card">
   <div class="address-selector">
     <div class="inputs">
       <AddressInput />

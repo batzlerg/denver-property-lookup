@@ -22,6 +22,7 @@ export async function getPropertyData(address: string): Promise<PropertyData> {
 
 export function parsePropertyData(data: LocationProperty): PropertyData {
   const propertyData = {
+    address: data.property_address,
     ownerName: cleanOwnerName(data.owner),
     ownerAddress: buildOwnerAddress(data),
     year: data.ccyrblt,
@@ -34,12 +35,10 @@ export function parsePropertyData(data: LocationProperty): PropertyData {
     bedrooms: data.bed_rms,
     bathrooms: data.full_b + data.hlf_b,
     neighborhood: data.nbhd_1_cn,
-    valuation: {
-      assessedLandValue: data.asdland,
-      actualLandValue: data.asmt_appr_land,
-      assessedTotalValue: data.assess_value,
-      actualTotalValue: data.total_value
-    },
+    assessedLandValue: data.asdland,
+    actualLandValue: data.asmt_appr_land,
+    assessedTotalValue: data.assess_value,
+    actualTotalValue: data.total_value
   };
 
   for (const [key, value] of Object.entries(propertyData)) {

@@ -27,7 +27,7 @@
   }
 </script>
 
-<section>
+<section class="card">
   <PropertyInfoTable header={address} {rows} />
   {#each Object.entries(specialCases) as [label, value]}
     <PropertyInfoTable subTable header={label} rows={value} />

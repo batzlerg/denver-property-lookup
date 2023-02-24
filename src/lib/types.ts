@@ -50,6 +50,7 @@ export interface LocationProperty {
 }
 
 export interface PropertyData {
+  address: string;
   ownerName: string,
   ownerAddress: string,
   year: number,
@@ -62,12 +63,10 @@ export interface PropertyData {
   bedrooms: number,
   bathrooms: number,
   neighborhood: string,
-  valuation: {
-    assessedLandValue: number,
-    actualLandValue: number,
-    assessedTotalValue: number,
-    actualTotalValue: number,
-  },
+  assessedLandValue: number,
+  actualLandValue: number,
+  assessedTotalValue: number,
+  actualTotalValue: number,
 }
 
 export interface PropertyCache {
