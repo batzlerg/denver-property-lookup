@@ -3,8 +3,8 @@ import type { LocationProperty, PropertyData } from "../types";
 import { buildOwnerAddress, cleanOwnerName, toTitleCase } from "../utils";
 
 export async function getPropertyData(address: string): Promise<PropertyData> {
-  const url = new URL(`${API_URL}/real_property_residential`);
-  url.searchParams.append('property_address', `eq.${address}`);
+  const url = new URL(`${API_URL}/property`);
+  url.searchParams.append('q', address);
 
   try {
     const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
@@ -64,16 +64,14 @@ export function parsePropertyData(data: LocationProperty): PropertyData {
 }
 
 export async function getAddressesMatchingInput(input: string): Promise<string[]> {
-  const url = new URL(`${API_URL}/real_property_residential`);
-  url.searchParams.append('property_address', `like.${input}*`); // * used as alias for % to avoid URL encoding issues
-  url.searchParams.append('select', `property_address`);
-  url.searchParams.append('limit', String(NUM_MATCHES));
+  const url = new URL(`${API_URL}/propertyMatch`);
+  url.searchParams.append('q', input); // * used as alias for % to avoid URL encoding issues
 
   try {
     const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
     if (response.ok) {
       const parsed = await response.json();
-      return parsed.map(addressObj => addressObj.property_address);
+      return parsed;
     } else {
       throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
     }
@@ -84,16 +82,14 @@ export async function getAddressesMatchingInput(input: string): Promise<string[]
 }
 
 export async function getAddressesFuzzyMatchingInput(input: string): Promise<string[]> {
-  const url = new URL(`${API_URL}/rpc/fuzzy_search`);
-  url.searchParams.append('term', `${input}`);
+  const url = new URL(`${API_URL}/search`);
+  url.searchParams.append('q', `${input}`);
 
   try {
     const response = await fetch(url, { headers: { 'ngrok-skip-browser-warning': 'true' } })
     if (response.ok) {
       const parsed = await response.json();
-      const mapped: string[] = parsed.map(addressObj => addressObj.property_address);
-      const perfectMatch = mapped.find(address => address === input);
-      return perfectMatch ? [perfectMatch] : [...new Set(mapped)].slice(0, NUM_MATCHES);
+      return parsed;
     } else {
       throw new Error(`something went wrong in the response: ${JSON.stringify(response)}`)
     }
