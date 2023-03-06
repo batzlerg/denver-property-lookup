@@ -1,0 +1,1 @@
+- [ ] dockerize Svelte and deploy to cloud
