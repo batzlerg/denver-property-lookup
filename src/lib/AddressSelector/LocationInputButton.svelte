@@ -29,34 +29,40 @@
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         loadingInitiator.set(InputSources.GPS);
-        getAddressesMatchingLocation(latitude, longitude).then((addresses) => {
-          errorMessage.set(null);
-          // if we have one address, skip the suggestion and go straight to lookup
-          if (addresses.length === 1) {
-            const address = addresses[0];
-            if (!$propertyCache[address]) {
-              getPropertyData(address)
-                .then((data) => {
-                  propertyCache.update((cache) => ({
-                    ...cache,
-                    [address]: data,
-                  }));
-                  currentAddress.set(address);
-                  matchingAddresses.set([]);
-                  errorMatchingAddress.set(false);
-                })
-                .catch(() => {
-                  errorMatchingAddress.set(true);
-                });
+        getAddressesMatchingLocation(latitude, longitude)
+          .then((addresses) => {
+            errorMessage.set(null);
+            // if we have one address, skip the suggestion and go straight to lookup
+            if (addresses.length === 1) {
+              const address = addresses[0];
+              if (!$propertyCache[address]) {
+                getPropertyData(address)
+                  .then((data) => {
+                    propertyCache.update((cache) => ({
+                      ...cache,
+                      [address]: data,
+                    }));
+                    currentAddress.set(address);
+                    matchingAddresses.set([]);
+                    errorMatchingAddress.set(false);
+                  })
+                  .catch(() => {
+                    errorMatchingAddress.set(true);
+                  });
+              } else {
+                currentAddress.set(address);
+                matchingAddresses.set([]);
+              }
             } else {
-              currentAddress.set(address);
-              matchingAddresses.set([]);
+              matchingAddresses.set(addresses);
             }
-          } else {
-            matchingAddresses.set(addresses);
-          }
-          loadingInitiator.set(null);
-        });
+          })
+          .catch((err) => {
+            errorMessage.set(err?.message || "Something went wrong.");
+          })
+          .finally(() => {
+            loadingInitiator.set(null);
+          });
       },
       () => {
         errorMessage.set(
