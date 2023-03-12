@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { clickOutside } from "../directives";
-  import type { PropertyData } from "../types";
+  import { clickOutside } from "../../directives";
+  import type { PropertyData } from "../../types";
   import {
     matchingAddresses,
     propertyCache,
     currentAddress,
     errorMatchingAddress,
-  } from "../store";
-  import { getPropertyData } from "../services/propertyLookupService";
+  } from "../../store";
+  import { getPropertyData } from "../../services/propertyLookupService";
 
   async function getPropertyDataForAddress(address: string) {
     // e.g. "123 N MAIN ST"

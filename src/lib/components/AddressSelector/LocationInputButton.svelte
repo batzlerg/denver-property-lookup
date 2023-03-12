@@ -5,9 +5,9 @@
     currentAddress,
     propertyCache,
     errorMatchingAddress,
-  } from "../store";
-  import { getAddressesMatchingLocation } from "../services/mapsService";
-  import { getPropertyData } from "../services/propertyLookupService";
+  } from "../../store";
+  import { getAddressesMatchingLocation } from "../../services/mapsService";
+  import { getPropertyData } from "../../services/propertyLookupService";
   import Loader from "./Loader.svelte";
   import type { Writable } from "svelte/store";
   import { loadingInitiator, InputSources } from "./store";

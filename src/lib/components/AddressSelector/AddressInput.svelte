@@ -3,8 +3,8 @@
     matchingAddresses,
     currentAddress,
     errorMatchingAddress,
-  } from "../store";
-  import { getAddressesFuzzyMatchingInput } from "../services/propertyLookupService";
+  } from "../../store";
+  import { getAddressesFuzzyMatchingInput } from "../../services/propertyLookupService";
   import Loader from "./Loader.svelte";
   import { InputSources, loadingInitiator } from "./store";
 

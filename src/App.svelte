@@ -1,6 +1,6 @@
 <script lang="ts">
-  import AddressSelector from "./lib/AddressSelector/index.svelte";
-  import PropertyData from "./lib/PropertyData/index.svelte";
+  import AddressSelector from "./lib/components/AddressSelector/index.svelte";
+  import PropertyData from "./lib/components/PropertyData/index.svelte";
   import { propertyCache, currentAddress } from "./lib/store";
 </script>
 
