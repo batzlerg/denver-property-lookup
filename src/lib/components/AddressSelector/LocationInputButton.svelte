@@ -32,30 +32,7 @@
         getAddressesMatchingLocation(latitude, longitude)
           .then((addresses) => {
             errorMessage.set(null);
-            // if we have one address, skip the suggestion and go straight to lookup
-            if (addresses.length === 1) {
-              const address = addresses[0];
-              if (!$propertyCache[address]) {
-                getPropertyData(address)
-                  .then((data) => {
-                    propertyCache.update((cache) => ({
-                      ...cache,
-                      [address]: data,
-                    }));
-                    currentAddress.set(address);
-                    matchingAddresses.set([]);
-                    errorMatchingAddress.set(false);
-                  })
-                  .catch(() => {
-                    errorMatchingAddress.set(true);
-                  });
-              } else {
-                currentAddress.set(address);
-                matchingAddresses.set([]);
-              }
-            } else {
-              matchingAddresses.set(addresses);
-            }
+            matchingAddresses.set(addresses);
           })
           .catch((err) => {
             errorMessage.set(err?.message || "Something went wrong.");
